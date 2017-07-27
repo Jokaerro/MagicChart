@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tesla.andrew.magicchart.MainActivity"
+    android:background="@color/metallic_blue"
+    android:orientation="vertical"
+    >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mask"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:text="Подведём итоги занятия по словам:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textColor="#d0d6df"
+                android:text="Выучено 1 слово"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textColor="#d0d6df"
+                android:text="Нужно повторить 2 слова"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textColor="#d0d6df"
+                android:text="Новые 2 слова"
+            />
+        </LinearLayout>
+    <tesla.andrew.magicchart.custom_views.MagicChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardBackgroundColor="@color/charcoal_grey"
+        android:layout_gravity="center"
+        />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:background="@color/faded_orange"
+        android:text="OK"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        />
+</LinearLayout>

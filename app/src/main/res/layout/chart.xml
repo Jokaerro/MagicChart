@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/charcoal_grey"
+    >
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:id="@+id/container"/>
+    <CheckBox
+        android:id="@+id/newWords_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/dark_sky_blue"
+        android:textColor="@android:color/white"
+        android:text="новые \nслова"
+        android:layout_gravity="bottom"
+        android:checked="true"
+        />
+        <CheckBox
+            android:id="@+id/repeatWords_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/squash"
+            android:textColor="@android:color/white"
+            android:text="повторенные \nслова"
+            android:layout_gravity="bottom|center"
+            android:checked="true"
+            />
+        <CheckBox
+            android:id="@+id/learnedWords_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/kiwi_green"
+            android:textColor="@android:color/white"
+            android:text="выученные \nслова"
+            android:layout_gravity="bottom|right"
+            android:checked="true"
+            />
+</android.support.v7.widget.CardView>
