@@ -69,7 +69,7 @@ public class Column extends LinearLayout {
 
         this.newWordsCaption = (TextView)findViewById(R.id.newWordsCaption);
         this.newWordsCaption.setTypeface(type);
-        
+
         this.context = context;
     }
 
@@ -208,6 +208,6 @@ public class Column extends LinearLayout {
     public static int dpToPx(Context context, float dp)
     {
         final float scale= context.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+        return (int) (dp * scale + 20.5f);
     }
 }

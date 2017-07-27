@@ -53,7 +53,7 @@
     <tesla.andrew.magicchart.custom_views.MagicChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         app:cardBackgroundColor="@color/charcoal_grey"
         android:layout_gravity="center"
         />

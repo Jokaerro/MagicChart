@@ -19,10 +19,11 @@
             android:id="@+id/learnedWordsCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="5.5sp"
+            android:textSize="11sp"
             android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:visibility="gone"
+            android:textScaleX="0.6"
             />
     </RelativeLayout>
     <RelativeLayout
@@ -39,10 +40,11 @@
             android:id="@+id/repeatWordsCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="5.5sp"
+            android:textSize="11sp"
             android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:visibility="gone"
+            android:textScaleX="0.6"
             />
     </RelativeLayout>
     <RelativeLayout
@@ -59,10 +61,11 @@
             android:id="@+id/newWordsCaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="5.5sp"
+            android:textSize="11sp"
             android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:visibility="gone"
+            android:textScaleX="0.6"
             />
     </RelativeLayout>
 </LinearLayout>

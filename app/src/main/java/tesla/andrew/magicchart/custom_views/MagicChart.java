@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -21,7 +22,7 @@ import tesla.andrew.magicchart.R;
  * Created by TESLA on 26.07.2017.
  */
 
-public class MagicChart extends CardView {
+public class MagicChart extends FrameLayout {
     private RecyclerView container;
     private Context context;
     private ChartAdapter adapter;
