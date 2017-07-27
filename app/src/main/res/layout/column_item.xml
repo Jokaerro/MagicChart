@@ -10,7 +10,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/back_card"
         android:layout_width="56dp"
-        android:layout_height="140dp"
+        android:layout_height="150dp"
         app:cardElevation="0dp"
         android:layout_centerInParent="true"
         app:cardBackgroundColor="@color/metallic_blue"
@@ -21,5 +21,27 @@
         android:layout_width="24dp"
         android:layout_height="120dp"
         android:layout_centerInParent="true"
+        />
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="6.5sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_below="@+id/column_item"
+        android:layout_centerInParent="true"
+        android:text="06"
+        />
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="4sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_below="@+id/day"
+        android:layout_centerInParent="true"
+        android:text="ИЮН"
         />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package tesla.andrew.magicchart.custom_views;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ public class MagicChart extends CardView {
     private CheckBox newCheck;
     private CheckBox learnedCheck;
     private CheckBox repeatCheck;
+    private ChartAdapter.MyViewHolder currentColumn = null;
 
     public MagicChart(Context context) {
         super(context);
@@ -58,14 +60,22 @@ public class MagicChart extends CardView {
         this.adapter = new ChartAdapter(context, columnModels, new ChartClickListener() {
             @Override
             public void onColumnClick(ChartAdapter.MyViewHolder column) {
-
+                if(currentColumn != column) {
+                    adapter.unselectCurrentColumn();
+                }
+                currentColumn = column;
+//                column.column.setColumnWidth(240);
             }
         });
         this.container.setAdapter(this.adapter);
 
+        Typeface type2 = Typeface.createFromAsset(context.getAssets(),"fonts/SFUIDisplayMedium.ttf");
         newCheck = (CheckBox) findViewById(R.id.newWords_check);
+        newCheck.setTypeface(type2);
         learnedCheck = (CheckBox) findViewById(R.id.learnedWords_check);
+        learnedCheck.setTypeface(type2);
         repeatCheck = (CheckBox) findViewById(R.id.repeatWords_check);
+        repeatCheck.setTypeface(type2);
 
         newCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -73,6 +83,11 @@ public class MagicChart extends CardView {
                 for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
                     ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
                     obj.column.showNewWords(b);
+                    if(currentColumn == (ChartAdapter.MyViewHolder)adapter.getItem(i)) {
+                        obj.column.setVisibleCounts(b);
+                    } else {
+                        obj.column.setVisibleCounts(false);
+                    }
                 }
             }
         });
@@ -83,6 +98,11 @@ public class MagicChart extends CardView {
                 for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
                     ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
                     obj.column.showLearnedWords(b);
+                    if(currentColumn == (ChartAdapter.MyViewHolder)adapter.getItem(i)) {
+                        obj.column.setVisibleCounts(b);
+                    } else {
+                        obj.column.setVisibleCounts(false);
+                    }
                 }
             }
         });
@@ -93,6 +113,11 @@ public class MagicChart extends CardView {
                 for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
                     ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
                     obj.column.showRepeatWords(b);
+                    if(currentColumn == (ChartAdapter.MyViewHolder)adapter.getItem(i)) {
+                        obj.column.setVisibleCounts(b);
+                    } else {
+                        obj.column.setVisibleCounts(false);
+                    }
                 }
             }
         });
