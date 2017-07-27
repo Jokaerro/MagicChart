@@ -10,10 +10,10 @@
     <android.support.v7.widget.CardView
         android:id="@+id/back_card"
         android:layout_width="56dp"
-        android:layout_height="150dp"
+        android:layout_height="match_parent"
         app:cardElevation="0dp"
         android:layout_centerInParent="true"
-        app:cardBackgroundColor="@color/metallic_blue"
+        app:cardBackgroundColor="@color/selected"
         android:visibility="gone"
         android:layout_marginTop="8dp"/>
     <tesla.andrew.magicchart.custom_views.Column

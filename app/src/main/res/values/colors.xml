@@ -10,5 +10,6 @@
 
     <color name="charcoal_grey">#3e4754</color>
     <color name="metallic_blue">#516788</color>
+    <color name="selected">#60728E</color>
     <color name="faded_orange">#f07564</color>
 </resources>

@@ -31,6 +31,10 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.MyViewHolder
     private MagicChart.ChartClickListener callback;
     private List<MyViewHolder> items = new ArrayList<>();
     private MyViewHolder currentColumn = null;
+    private Boolean showLearned = true;
+    private Boolean showRepaeted = true;
+    private Boolean showNewWords = true;
+
 
     public ChartAdapter(Context context, List<ColumnModel> data, MagicChart.ChartClickListener callback) {
         this.context = context;
@@ -59,6 +63,16 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.MyViewHolder
         return  this.items.size();
     }
 
+    public void showLearnedLayer(Boolean visible) {
+        this.showLearned = visible;
+    }
+    public void showRepeatedLayer(Boolean visible) {
+        this.showRepaeted = visible;
+    }
+    public void showNewLayer(Boolean visible) {
+        this.showNewWords = visible;
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(context).inflate(R.layout.column_item, parent, false);
@@ -78,6 +92,10 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.MyViewHolder
                     this.data.get(position).getDay(),
                     this.data.get(position).getMonth(),
                     24);
+
+            holder.column.showLearnedWords(this.showLearned);
+            holder.column.showRepeatWords(this.showRepaeted);
+            holder.column.showNewWords(this.showNewWords);
 
             holder.column.setOnClickListener(new View.OnClickListener() {
                 @Override

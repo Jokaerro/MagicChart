@@ -80,6 +80,7 @@ public class MagicChart extends CardView {
         newCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                adapter.showNewLayer(b);
                 for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
                     ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
                     obj.column.showNewWords(b);
@@ -95,6 +96,7 @@ public class MagicChart extends CardView {
         learnedCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                adapter.showLearnedLayer(b);
                 for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
                     ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
                     obj.column.showLearnedWords(b);
@@ -110,6 +112,7 @@ public class MagicChart extends CardView {
         repeatCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                adapter.showRepeatedLayer(b);
                 for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
                     ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
                     obj.column.showRepeatWords(b);

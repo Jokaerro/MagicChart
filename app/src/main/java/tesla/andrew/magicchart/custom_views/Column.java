@@ -69,7 +69,7 @@ public class Column extends LinearLayout {
 
         this.newWordsCaption = (TextView)findViewById(R.id.newWordsCaption);
         this.newWordsCaption.setTypeface(type);
-
+        
         this.context = context;
     }
 
