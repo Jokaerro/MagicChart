@@ -5,10 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/charcoal_grey"
     >
-<android.support.v7.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="190dp"
-    android:id="@+id/container"/>
+<!--<android.support.v7.widget.RecyclerView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="190dp"-->
+    <!--android:id="@+id/container"/>-->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:scrollbars="none"
+        >
+        <tesla.andrew.magicchart.custom_views.ColumnsContainer
+            android:id="@+id/columnsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            />
+    </HorizontalScrollView>
     <CheckBox
         android:id="@+id/newWords_check"
         android:layout_width="wrap_content"

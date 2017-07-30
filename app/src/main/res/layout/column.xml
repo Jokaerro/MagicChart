@@ -1,71 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="wrap_content"
     android:gravity="bottom"
-    android:id="@+id/column">
+    android:id="@+id/column"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    >
+    <android.support.v7.widget.CardView
+        android:id="@+id/back_card"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        app:cardElevation="0dp"
+        android:layout_centerHorizontal="true"
+        app:cardBackgroundColor="@color/selected"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"/>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/LrnWords"
+        android:layout_above="@+id/rlRepWords"
+        android:layout_centerHorizontal="true"
         >
-        <ImageView
-            android:id="@+id/learnedWords"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/learned"
-            />
-        <TextView
-            android:id="@+id/learnedWordsCaption"
+            <ImageView
+                android:id="@+id/learnedWords"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/learned"
+                />
+            <TextView
+                android:id="@+id/learnedWordsCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="#ffffff"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:scaleX="0.6"
+                />
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
+            android:id="@+id/rlRepWords"
+            android:layout_above="@+id/rlNewWords"
+            android:layout_centerHorizontal="true"
+            >
+            <ImageView
+                android:id="@+id/repeatWords"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/repeat"
+                />
+            <TextView
+                android:id="@+id/repeatWordsCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="#ffffff"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:scaleX="0.6"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlNewWords"
+            android:layout_above="@+id/date"
+            android:layout_centerHorizontal="true"
+            >
+            <ImageView
+                android:id="@+id/newWords"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@drawable/neww"
+                />
+            <TextView
+                android:id="@+id/newWordsCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="#ffffff"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:scaleX="0.6"
+                />
+        </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/date"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        >
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
             android:textColor="#ffffff"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:textScaleX="0.6"
+            android:layout_gravity="center"
+            android:layout_above="@+id/month"
+            android:maxLines="1"
             />
-    </RelativeLayout>
-    <RelativeLayout
+    <TextView
+        android:id="@+id/month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-        <ImageView
-            android:id="@+id/repeatWords"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/repeat"
-            />
-        <TextView
-            android:id="@+id/repeatWordsCaption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#ffffff"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:textScaleX="0.6"
-            />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-        <ImageView
-            android:id="@+id/newWords"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/neww"
-            />
-        <TextView
-            android:id="@+id/newWordsCaption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#ffffff"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:textScaleX="0.6"
-            />
-    </RelativeLayout>
-</LinearLayout>
+        android:textSize="6sp"
+        android:textColor="@color/half_white"
+        android:layout_gravity="center"
+        android:maxLines="1"
+        />
+    </LinearLayout>
+
+
+</RelativeLayout>

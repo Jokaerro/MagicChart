@@ -58,13 +58,19 @@
         android:layout_gravity="center"
         />
 
-    <Button
+    <TextView
+        android:id="@+id/okButton"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:background="@color/faded_orange"
+        android:background="@drawable/button_bg"
+        android:textSize="12sp"
         android:text="OK"
         android:textColor="@android:color/white"
         android:layout_gravity="center"
+        android:gravity="center"
         android:layout_marginTop="60dp"
+        android:elevation="5dp"
+        android:clickable="true"
+        android:focusable="true"
         />
 </LinearLayout>

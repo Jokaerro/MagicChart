@@ -23,14 +23,11 @@ import tesla.andrew.magicchart.R;
  */
 
 public class MagicChart extends FrameLayout {
-    private RecyclerView container;
     private Context context;
-    private ChartAdapter adapter;
-    private List<ColumnModel> columnModels = new LinkedList<>();
     private CheckBox newCheck;
     private CheckBox learnedCheck;
     private CheckBox repeatCheck;
-    private ChartAdapter.MyViewHolder currentColumn = null;
+    private ColumnsContainer mColumnsContainer;
 
     public MagicChart(Context context) {
         super(context);
@@ -52,25 +49,9 @@ public class MagicChart extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.chart, this);
-        this.container = (RecyclerView) findViewById(R.id.container);
+        mColumnsContainer = (ColumnsContainer) findViewById(R.id.columnsContainer);
 
-        this.container.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false);
-        this.container.setLayoutManager(llm);
-
-        this.adapter = new ChartAdapter(context, columnModels, new ChartClickListener() {
-            @Override
-            public void onColumnClick(ChartAdapter.MyViewHolder column) {
-                if(currentColumn != column) {
-                    adapter.unselectCurrentColumn();
-                }
-                currentColumn = column;
-//                column.column.setColumnWidth(240);
-            }
-        });
-        this.container.setAdapter(this.adapter);
-
-        Typeface type2 = Typeface.createFromAsset(context.getAssets(),"fonts/SFUIDisplayMedium.ttf");
+        Typeface type2 = Typeface.createFromAsset(context.getAssets(),"fonts/SFUIDisplayRegular.ttf");
         newCheck = (CheckBox) findViewById(R.id.newWords_check);
         newCheck.setTypeface(type2);
         learnedCheck = (CheckBox) findViewById(R.id.learnedWords_check);
@@ -81,57 +62,32 @@ public class MagicChart extends FrameLayout {
         newCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                adapter.showNewLayer(b);
-                for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
-                    ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
-                    obj.column.showNewWords(b);
-                    if(currentColumn == (ChartAdapter.MyViewHolder)adapter.getItem(i)) {
-                        obj.column.setVisibleCounts(b);
-                    } else {
-                        obj.column.setVisibleCounts(false);
-                    }
-                }
+                mColumnsContainer.hideNewLayer(b);
             }
         });
 
         learnedCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                adapter.showLearnedLayer(b);
-                for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
-                    ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
-                    obj.column.showLearnedWords(b);
-                    if(currentColumn == (ChartAdapter.MyViewHolder)adapter.getItem(i)) {
-                        obj.column.setVisibleCounts(b);
-                    } else {
-                        obj.column.setVisibleCounts(false);
-                    }
-                }
+                mColumnsContainer.hideLearnedLayer(b);
             }
         });
 
         repeatCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                adapter.showRepeatedLayer(b);
-                for(int i=0 ; i < adapter.getViewItemsCount() ; i++){
-                    ChartAdapter.MyViewHolder obj = (ChartAdapter.MyViewHolder)adapter.getItem(i);
-                    obj.column.showRepeatWords(b);
-                    if(currentColumn == (ChartAdapter.MyViewHolder)adapter.getItem(i)) {
-                        obj.column.setVisibleCounts(b);
-                    } else {
-                        obj.column.setVisibleCounts(false);
-                    }
-                }
+                mColumnsContainer.hideRepeatLayer(b);
             }
         });
     }
 
-    public void updateChart(List<ColumnModel> columns) {
-        this.adapter.swapData(columns);
-    }
-
-    public interface ChartClickListener {
-        void onColumnClick(ChartAdapter.MyViewHolder column);
+    public void updateChart(List<ColumnModel> columnModels) {
+        for(ColumnModel columnModel : columnModels) {
+            Column yetAnotherColumn = new Column(context);
+            // int learnedCount, int repeatCount, int newCount, String day, String month
+            yetAnotherColumn.createColumn(columnModel.getLearnedCount(), columnModel.getRepeatCount(),
+                    columnModel.getNewCount(), columnModel.getDay(), columnModel.getMonth());
+            mColumnsContainer.addItem(yetAnotherColumn);
+        }
     }
 }

@@ -12,4 +12,6 @@
     <color name="metallic_blue">#516788</color>
     <color name="selected">#60728E</color>
     <color name="faded_orange">#f07564</color>
+    <color name="faded_orange_pressed">#c15b4d</color>
+    <color name="half_white">#7fffffff</color>
 </resources>

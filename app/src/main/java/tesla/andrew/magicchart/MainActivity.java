@@ -1,7 +1,10 @@
 package tesla.andrew.magicchart;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -13,12 +16,17 @@ import tesla.andrew.magicchart.custom_views.MagicChart;
 
 public class MainActivity extends AppCompatActivity {
     public MagicChart chart;
+    private TextView okButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         chart = (MagicChart) findViewById(R.id.chart);
+
+        okButton = (TextView) findViewById(R.id.okButton);
+        Typeface type2 = Typeface.createFromAsset(this.getAssets(),"fonts/SFUIDisplayMedium.ttf");
+        okButton.setTypeface(type2);
 
         mockChart();
     }

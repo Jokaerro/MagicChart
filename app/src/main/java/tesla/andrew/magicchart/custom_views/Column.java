@@ -11,7 +11,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,8 +29,11 @@ public class Column extends LinearLayout {
     private ImageView learnedWords;
     private ImageView repeatWords;
     private ImageView newWords;
-    private LinearLayout column;
+    private RelativeLayout column;
     private Context context;
+
+    private CardView backGroundCard;
+    private boolean selected = false;
 
     private int learnedCount;
     private int repeatCount;
@@ -37,6 +42,13 @@ public class Column extends LinearLayout {
     private TextView learnedWordsCaption;
     private TextView repeatWordsCaption;
     private TextView newWordsCaption;
+
+    private TextView day;
+    private TextView month;
+
+    private boolean learnedVisible = true;
+    private boolean newVisible = true;
+    private boolean repeatVisible = true;
 
     public Column(Context context) {
         super(context);
@@ -58,7 +70,9 @@ public class Column extends LinearLayout {
         this.learnedWords = (ImageView)findViewById(R.id.learnedWords);
         this.repeatWords = (ImageView)findViewById(R.id.repeatWords);
         this.newWords = (ImageView)findViewById(R.id.newWords);
-        this.column = (LinearLayout) findViewById(R.id.column);
+        this.backGroundCard = (CardView) findViewById(R.id.back_card);
+
+        this.column = (RelativeLayout) findViewById(R.id.column);
 
         Typeface type = Typeface.createFromAsset(context.getAssets(),"fonts/SFUIDisplayMedium.ttf");
         this.learnedWordsCaption = (TextView) findViewById(R.id.learnedWordsCaption);
@@ -70,10 +84,17 @@ public class Column extends LinearLayout {
         this.newWordsCaption = (TextView)findViewById(R.id.newWordsCaption);
         this.newWordsCaption.setTypeface(type);
 
+        Typeface type2 = Typeface.createFromAsset(context.getAssets(),"fonts/SFUIDisplayRegular.ttf");
+        this.day = (TextView)findViewById(R.id.day);
+        this.day.setTypeface(type2);
+
+        this.month = (TextView)findViewById(R.id.month);
+        this.month.setTypeface(type);
+
         this.context = context;
     }
 
-    public void createColumn(int learnedCount, int repeatCount, int newCount, String day, String month, int width) {
+    public void createColumn(int learnedCount, int repeatCount, int newCount, String day, String month) {
         this.learnedCount = learnedCount;
         setLearnedWordsHeight(learnedCount);
 
@@ -83,45 +104,32 @@ public class Column extends LinearLayout {
         this.newCount = newCount;
         setNewWordsHeight(newCount);
 
-        setColumnWidth(width);
+        this.day.setText(day);
+        this.month.setText(month);
+
+        setWidth(12);
     }
 
-    public void setColumnWidth(int width) {
-//        Drawable lern = getResources().getDrawable(R.drawable.learned);
-//        Bitmap bitmapResized = Bitmap.createScaledBitmap(((BitmapDrawable)lern).getBitmap(), width, dpToPx(context, learnedCount), false);
-////        lern.setBounds(0,0, width, dpToPx(context, learnedCount));
-//        learnedWords.setImageDrawable(new BitmapDrawable(getResources(), bitmapResized));
-//
-//        Drawable rept = getResources().getDrawable(R.drawable.repeat);
-//        Bitmap bitmapResized1 = Bitmap.createScaledBitmap(((BitmapDrawable)rept).getBitmap(), width, dpToPx(context, repeatCount), false);
-//        repeatWords.setImageDrawable(new BitmapDrawable(getResources(), bitmapResized1));
-////        lern.setBounds(0,0, width, dpToPx(context, repeatCount));
-////        repeatWords.setImageDrawable(rept);
-//
-//        Drawable neww = getResources().getDrawable(R.drawable.neww);
-//        Bitmap bitmapResized2 = Bitmap.createScaledBitmap(((BitmapDrawable)neww).getBitmap(), width, dpToPx(context, newCount), false);
-//        newWords.setImageDrawable(new BitmapDrawable(getResources(), bitmapResized2));
-//        lern.setBounds(0,0, width, dpToPx(context, newCount));
-//        newWords.setImageDrawable(neww);
-//        column.getLayoutParams().width = dpToPx(context, width);
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), dpToPx(context, 120), 0);
-//        column.setLayoutParams(layoutParams);
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
-//        column.post(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
+    public boolean getSelected() {
+        return this.selected;
+    }
 
-//        layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), dpToPx(context, learnedCount));
-//        learnedWords.setLayoutParams(layoutParams);
+    public void setWidth(int width) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(dpToPx(context, 4), 0 , dpToPx(context, 4), 0);
+        column.setLayoutParams(layoutParams);
+    }
 
-//        layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), dpToPx(context, repeatCount));
-//        repeatWords.setLayoutParams(layoutParams);
-//
-//        layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), dpToPx(context, newCount));
-//        newWords.setLayoutParams(layoutParams);
+    public void setVisibleBackCard(boolean visible) {
+        if(visible) {
+            backGroundCard.setVisibility(VISIBLE);
+        } else {
+            backGroundCard.setVisibility(GONE);
+        }
     }
 
     public void setVisibleCounts(Boolean visible) {
@@ -151,6 +159,7 @@ public class Column extends LinearLayout {
     }
 
     public void showLearnedWords(Boolean visible) {
+        learnedVisible = visible;
         if(visible) {
             learnedWords.setVisibility(VISIBLE);
             if(learnedCount > 9)
@@ -159,6 +168,7 @@ public class Column extends LinearLayout {
             learnedWords.setVisibility(GONE);
             learnedWordsCaption.setVisibility(GONE);
         }
+        manageCorners();
     }
 
     public void setRepeatWordsHeight(int height) {
@@ -167,6 +177,7 @@ public class Column extends LinearLayout {
     }
 
     public void showRepeatWords(Boolean visible) {
+        repeatVisible = visible;
         if(visible) {
             repeatWords.setVisibility(VISIBLE);
             if(repeatCount > 9)
@@ -175,6 +186,7 @@ public class Column extends LinearLayout {
             repeatWords.setVisibility(GONE);
             repeatWordsCaption.setVisibility(GONE);
         }
+        manageCorners();
     }
 
     public void setNewWordsHeight(int height) {
@@ -183,6 +195,7 @@ public class Column extends LinearLayout {
     }
 
     public void showNewWords(Boolean visible) {
+        newVisible = visible;
         if(visible) {
             newWords.setVisibility(VISIBLE);
             if(newCount > 9)
@@ -191,6 +204,28 @@ public class Column extends LinearLayout {
             newWords.setVisibility(GONE);
             newWordsCaption.setVisibility(GONE);
         }
+        manageCorners();
+    }
+
+    private void manageCorners() {
+        if(!learnedVisible)
+            repeatWords.setBackgroundResource(R.drawable.repeat_top);
+        if(!newVisible)
+            repeatWords.setBackgroundResource(R.drawable.repeat_bottom);
+        if(!learnedVisible && !newVisible)
+            repeatWords.setBackgroundResource(R.drawable.repeat_single);
+        if(learnedVisible && newVisible)
+            repeatWords.setBackgroundResource(R.drawable.repeat);
+
+        if(!repeatVisible && !newVisible)
+            learnedWords.setBackgroundResource(R.drawable.learned_single);
+        else
+            learnedWords.setBackgroundResource(R.drawable.learned);
+
+        if(!repeatVisible && !learnedVisible)
+            newWords.setBackgroundResource(R.drawable.neww_single);
+        else
+            newWords.setBackgroundResource(R.drawable.neww);
     }
 
     public int getLearnedCount() {
