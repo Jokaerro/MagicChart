@@ -13,6 +13,8 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ public class Column extends LinearLayout {
     private RelativeLayout column;
     private Context context;
 
+    private LinearLayout columnItem;
     private CardView backGroundCard;
     private boolean selected = false;
 
@@ -67,6 +70,7 @@ public class Column extends LinearLayout {
 
     private void init(Context context) {
         inflate(getContext(), R.layout.column, this);
+        this.columnItem = (LinearLayout) findViewById(R.id.column_item);
         this.learnedWords = (ImageView)findViewById(R.id.learnedWords);
         this.repeatWords = (ImageView)findViewById(R.id.repeatWords);
         this.newWords = (ImageView)findViewById(R.id.newWords);
@@ -106,8 +110,6 @@ public class Column extends LinearLayout {
 
         this.day.setText(day);
         this.month.setText(month);
-
-        setWidth(12);
     }
 
     public void setSelected(boolean selected) {
@@ -118,9 +120,23 @@ public class Column extends LinearLayout {
         return this.selected;
     }
 
+    public CardView getBackGroundCard() {
+        return backGroundCard;
+    }
+
+    public LinearLayout getColumnItem() {
+        return columnItem;
+    }
+    public void setWidthItem(int widthItem) {
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, widthItem), ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        columnItem.setLayoutParams(layoutParams);
+    }
+
     public void setWidth(int width) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(dpToPx(context, 4), 0 , dpToPx(context, 4), 0);
+        layoutParams.setMargins(4, 0 , 4, 0);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
         column.setLayoutParams(layoutParams);
     }
 

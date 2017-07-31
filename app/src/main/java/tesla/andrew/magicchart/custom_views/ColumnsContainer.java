@@ -1,21 +1,18 @@
 package tesla.andrew.magicchart.custom_views;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import tesla.andrew.magicchart.R;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by TESLA on 30.07.2017.
@@ -25,6 +22,7 @@ public class ColumnsContainer extends LinearLayout {
     private List<Column> mColumns = new ArrayList<>();
     private Column selectedColumn = null;
     private Context mContext;
+    private Queue<Column> animationQueue = new LinkedBlockingQueue<>();
 
     private Boolean showLearned = true;
     private Boolean showRepaeted = true;
@@ -55,81 +53,50 @@ public class ColumnsContainer extends LinearLayout {
         column.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(selectedColumn == column) {
-                    deselectCurrentColumn();
-                    column.setSelected(false);
-//                    column.setVisibleCounts(false);
-//                    column.setVisibleBackCard(false);
+                column.setSelected(true);
+                column.setWidth(40);
 
-//                    column.setWidth(12);
+                column.getBackGroundCard().setVisibility(View.INVISIBLE);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(column.getBackGroundCard(), "alpha", 0f, 1f);
+                anim.setDuration(600);
+                column.setVisibleBackCard(true);
 
-                    ObjectAnimator widthColumn = ObjectAnimator.ofFloat(column, "scaleX", 1.0f);
-                    widthColumn.setDuration(600);
-                    AnimatorSet scaleDown = new AnimatorSet();
-                    scaleDown.play(widthColumn);
-                    scaleDown.start();
+                final ObjectAnimator widthColumn = ObjectAnimator.ofFloat(column.getColumnItem(), "scaleX", 1.5f);
+                widthColumn.setDuration(600);
 
-                    scaleDown.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animator) {
 
-                        }
+                anim.start();
+                anim.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {}
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        widthColumn.start();
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animator) {}
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {}
+                });
 
-                        @Override
-                        public void onAnimationEnd(Animator animator) {
-                            column.setVisibleCounts(false);
-                            column.setVisibleBackCard(false);
-//                            column.setWidth(12);
-                        }
 
-                        @Override
-                        public void onAnimationCancel(Animator animator) {
+                widthColumn.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {}
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        column.setVisibleCounts(true);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animator) {}
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {}
+                });
 
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animator) {
-
-                        }
-                    });
-
-                } else {
-                    deselectCurrentColumn();
-                    column.setSelected(true);
-                    selectedColumn = column;
-
-//                    column.setWidth(40);
-//                    column.setVisibleBackCard(true);
-
-                    ObjectAnimator widthColumn = ObjectAnimator.ofFloat(column, "scaleX", 1.5f);
-                    widthColumn.setDuration(600);
-                    AnimatorSet scaleDown = new AnimatorSet();
-                    scaleDown.play(widthColumn);
-                    scaleDown.start();
-
-                    scaleDown.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animator) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animator) {
-                            column.setVisibleCounts(true);
-//                            column.setWidth(40);
-                            column.setVisibleBackCard(true);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animator) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animator) {
-
-                        }
-                    });
+                animationQueue.add(column);
+                if(animationQueue.size() > 1) {
+                    Column col = animationQueue.poll();
+                    deselectCurrentColumn(col);
                 }
             }
         });
@@ -193,14 +160,46 @@ public class ColumnsContainer extends LinearLayout {
         }
     }
 
-    public void deselectCurrentColumn() {
-        if(selectedColumn != null) {
-            selectedColumn.setVisibleBackCard(false);
+    public void deselectCurrentColumn(final Column column) {
+        if(column != null) {
+            column.setSelected(false);
+            column.setVisibleCounts(false);
 
-            selectedColumn.setWidth(12);
+            final ObjectAnimator anim = ObjectAnimator.ofFloat(column.getBackGroundCard(), "alpha", 1f, 0f);
+            anim.setDuration(600);
 
-            selectedColumn.setVisibleCounts(false);
+            ObjectAnimator widthColumn = ObjectAnimator.ofFloat(column.getColumnItem(), "scaleX", 1.0f);
+            widthColumn.setDuration(600);
+            widthColumn.start();
 
+            widthColumn.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {}
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    anim.start();
+                }
+                @Override
+                public void onAnimationCancel(Animator animator) {}
+                @Override
+                public void onAnimationRepeat(Animator animator) {}
+            });
+
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {}
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    column.setWidth(12);
+                    column.setVisibleBackCard(false);
+                    column.setVisibleCounts(false);
+//                    selectedColumn = null;
+                }
+                @Override
+                public void onAnimationCancel(Animator animator) {}
+                @Override
+                public void onAnimationRepeat(Animator animator) {}
+            });
         }
     }
 
