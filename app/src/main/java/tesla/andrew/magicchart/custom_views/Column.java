@@ -53,6 +53,9 @@ public class Column extends LinearLayout {
     private boolean newVisible = true;
     private boolean repeatVisible = true;
 
+    public AnimatorSet expandAnimation = new AnimatorSet();
+    public AnimatorSet colapseAnimation = new AnimatorSet();
+
     public Column(Context context) {
         super(context);
         init(context);
@@ -130,12 +133,15 @@ public class Column extends LinearLayout {
     public void setWidthItem(int widthItem) {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, widthItem), ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        layoutParams.addRule(RelativeLayout.ABOVE, R.id.date);
+        layoutParams.setMargins(0, 0, 0, dpToPx(context, 4));
         columnItem.setLayoutParams(layoutParams);
+//        columnItem.getLayoutParams().width = dpToPx(context, widthItem);
     }
 
     public void setWidth(int width) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpToPx(context, width), ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(4, 0 , 4, 0);
+        layoutParams.setMargins(dpToPx(context, 8), 0 , dpToPx(context, 8), 0);
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
         column.setLayoutParams(layoutParams);
     }
@@ -170,7 +176,7 @@ public class Column extends LinearLayout {
     }
 
     public void setLearnedWordsHeight(int height) {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, 24), dpToPx(context, height));
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, 24), dpToHeight(context, height));
         learnedWords.setLayoutParams(layoutParams);
     }
 
@@ -188,7 +194,7 @@ public class Column extends LinearLayout {
     }
 
     public void setRepeatWordsHeight(int height) {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, 24), dpToPx(context, height));
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, 24), dpToHeight(context, height));
         repeatWords.setLayoutParams(layoutParams);
     }
 
@@ -206,7 +212,7 @@ public class Column extends LinearLayout {
     }
 
     public void setNewWordsHeight(int height) {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, 24), dpToPx(context, height));
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpToPx(context, 24), dpToHeight(context, height));
         newWords.setLayoutParams(layoutParams);
     }
 
@@ -256,9 +262,15 @@ public class Column extends LinearLayout {
         return newCount;
     }
 
-    public static int dpToPx(Context context, float dp)
+    public static int dpToHeight(Context context, float dp)
     {
         final float scale= context.getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 20.5f);
+    }
+
+    public static int dpToPx(Context context, float dp)
+    {
+        final float scale= context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 }
