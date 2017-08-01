@@ -154,6 +154,12 @@ public class Column extends LinearLayout {
         }
     }
 
+    public void hideAllCounts() {
+        newWordsCaption.setVisibility(GONE);
+        repeatWordsCaption.setVisibility(GONE);
+        learnedWordsCaption.setVisibility(GONE);
+    }
+
     public void setVisibleCounts(Boolean visible) {
         if(visible) {
             if(newCount > 9 && newWords.getVisibility() == VISIBLE) {
@@ -169,9 +175,12 @@ public class Column extends LinearLayout {
                 learnedWordsCaption.setVisibility(VISIBLE);
             }
         } else {
-            newWordsCaption.setVisibility(GONE);
-            repeatWordsCaption.setVisibility(GONE);
-            learnedWordsCaption.setVisibility(GONE);
+            if(newWords.getVisibility() == GONE)
+                newWordsCaption.setVisibility(GONE);
+            if(repeatWords.getVisibility() == GONE)
+                repeatWordsCaption.setVisibility(GONE);
+            if(learnedWords.getVisibility() == GONE)
+                learnedWordsCaption.setVisibility(GONE);
         }
     }
 

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -167,7 +168,7 @@ public class ColumnsContainer extends LinearLayout {
             if(selectedColumn == column) {
                 column.setVisibleCounts(visible);
             } else {
-                column.setVisibleCounts(false);
+                column.hideAllCounts();
             }
         }
     }
@@ -180,7 +181,7 @@ public class ColumnsContainer extends LinearLayout {
             if(selectedColumn == column) {
                 column.setVisibleCounts(visible);
             } else {
-                column.setVisibleCounts(false);
+                column.hideAllCounts();
             }
         }
     }
@@ -193,7 +194,7 @@ public class ColumnsContainer extends LinearLayout {
             if(selectedColumn == column) {
                 column.setVisibleCounts(visible);
             } else {
-                column.setVisibleCounts(false);
+                column.hideAllCounts();
             }
         }
     }
@@ -201,7 +202,7 @@ public class ColumnsContainer extends LinearLayout {
     public void deselectCurrentColumn(final Column column) {
         if(column != null) {
             column.setSelected(false);
-            column.setVisibleCounts(false);
+            column.hideAllCounts();
 
             final ObjectAnimator widthItem = ObjectAnimator.ofInt(column, "widthItem", 72, 24);
             widthItem.setDuration(200);
@@ -215,7 +216,7 @@ public class ColumnsContainer extends LinearLayout {
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
-                    column.setVisibleCounts(false);
+                    column.hideAllCounts();
                 }
                 @Override
                 public void onAnimationEnd(Animator animator) {
@@ -237,7 +238,7 @@ public class ColumnsContainer extends LinearLayout {
             AnimatorSet collapseSet = new AnimatorSet();
             collapseSet.playTogether(widthItem, widthColumn);
 
-            column.colapseAnimation.playSequentially(collapseSet, anim);
+            column.colapseAnimation.playSequentially(anim, collapseSet);
             if(column.expandAnimation.isRunning()) {
                 column.expandAnimation.addListener(new Animator.AnimatorListener() {
                     @Override
