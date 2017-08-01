@@ -61,6 +61,7 @@ public class ColumnsContainer extends LinearLayout {
             public void onClick(View view) {
                 column.setSelected(true);
                 if(animationQueue.peek() != column) {
+                    selectedColumn = column;
 
                     ObjectAnimator widthItem = ObjectAnimator.ofInt(column, "widthItem", 24, 72);
                     widthItem.setDuration(200);
@@ -119,9 +120,10 @@ public class ColumnsContainer extends LinearLayout {
                         public void onAnimationRepeat(Animator animator) {}
                     });
 
-                    column.expandAnimation.playSequentially(widthItem,
-                            anim,
-                            widthColumn);
+                    AnimatorSet expandSet = new AnimatorSet();
+                    expandSet.playTogether(widthItem, widthColumn);
+
+                    column.expandAnimation.playSequentially(expandSet, anim);
                     column.expandAnimation.start();
 
                     animationQueue.add(column);
@@ -132,6 +134,7 @@ public class ColumnsContainer extends LinearLayout {
                 } else {
                     Column col = animationQueue.poll();
                     deselectCurrentColumn(col);
+                    selectedColumn = null;
                 }
             }
         });
@@ -231,9 +234,10 @@ public class ColumnsContainer extends LinearLayout {
                 }
             });
 
-            column.colapseAnimation.playSequentially(widthColumn,
-                    anim,
-                    widthItem);
+            AnimatorSet collapseSet = new AnimatorSet();
+            collapseSet.playTogether(widthItem, widthColumn);
+
+            column.colapseAnimation.playSequentially(collapseSet, anim);
             if(column.expandAnimation.isRunning()) {
                 column.expandAnimation.addListener(new Animator.AnimatorListener() {
                     @Override
