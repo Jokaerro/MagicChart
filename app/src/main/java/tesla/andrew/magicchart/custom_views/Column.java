@@ -2,8 +2,10 @@ package tesla.andrew.magicchart.custom_views;
 
 import org.w3c.dom.Text;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -15,6 +17,7 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,6 +102,9 @@ public class Column extends LinearLayout {
         this.month.setTypeface(type);
 
         this.context = context;
+
+        createExpandAnimation();
+        createCollapseAnimation();
     }
 
     public void createColumn(int learnedCount, int repeatCount, int newCount, String day, String month) {
@@ -113,6 +119,108 @@ public class Column extends LinearLayout {
 
         this.day.setText(day);
         this.month.setText(month);
+    }
+
+    public void createExpandAnimation() {
+        ObjectAnimator widthItem = ObjectAnimator.ofInt(this, "widthItem", 24, 72);
+        widthItem.setDuration(200);
+
+        final ObjectAnimator anim = ObjectAnimator.ofFloat(getBackGroundCard(), "alpha", 0f, 1f);
+        anim.setDuration(200);
+
+        final ObjectAnimator widthColumn = ObjectAnimator.ofFloat(getColumnItem(), "scaleX", 1.5f);
+        widthColumn.setDuration(200);
+
+        widthItem.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                requestLayout();
+            }
+        });
+
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                requestLayout();
+            }
+        });
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                getBackGroundCard().setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                setVisibleBackCard(true);
+            }
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+
+        widthColumn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                requestLayout();
+            }
+        });
+        widthColumn.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                setVisibleCounts(true);
+            }
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+
+        AnimatorSet expandSet = new AnimatorSet();
+        expandSet.playTogether(widthItem, widthColumn);
+
+        this.expandAnimation.playSequentially(expandSet, anim);
+    }
+
+    public void createCollapseAnimation() {
+        final ObjectAnimator widthItem = ObjectAnimator.ofInt(this, "widthItem", 72, 24);
+        widthItem.setDuration(200);
+
+        final ObjectAnimator anim = ObjectAnimator.ofFloat(getBackGroundCard(), "alpha", 1f, 0f);
+        anim.setDuration(200);
+
+        ObjectAnimator widthColumn = ObjectAnimator.ofFloat(getColumnItem(), "scaleX", 1.0f);
+        widthColumn.setDuration(200);
+
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                hideAllCounts();
+            }
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                setVisibleBackCard(false);
+            }
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+
+        widthItem.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                requestLayout();;
+            }
+        });
+
+        AnimatorSet collapseSet = new AnimatorSet();
+        collapseSet.playTogether(widthItem, widthColumn);
+
+        this.colapseAnimation.playSequentially(anim, collapseSet);
     }
 
     public void setSelected(boolean selected) {

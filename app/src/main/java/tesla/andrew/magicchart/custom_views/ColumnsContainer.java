@@ -64,67 +64,6 @@ public class ColumnsContainer extends LinearLayout {
                 if(animationQueue.peek() != column) {
                     selectedColumn = column;
 
-                    ObjectAnimator widthItem = ObjectAnimator.ofInt(column, "widthItem", 24, 72);
-                    widthItem.setDuration(200);
-
-                    final ObjectAnimator anim = ObjectAnimator.ofFloat(column.getBackGroundCard(), "alpha", 0f, 1f);
-                    anim.setDuration(200);
-
-                    final ObjectAnimator widthColumn = ObjectAnimator.ofFloat(column.getColumnItem(), "scaleX", 1.5f);
-                    widthColumn.setDuration(200);
-
-                    widthItem.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            requestLayout();
-                        }
-                    });
-
-                    anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            requestLayout();
-                        }
-                    });
-                    anim.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animator) {
-                            column.getBackGroundCard().setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animator) {
-                            column.setVisibleBackCard(true);
-                        }
-                        @Override
-                        public void onAnimationCancel(Animator animator) {}
-                        @Override
-                        public void onAnimationRepeat(Animator animator) {}
-                    });
-
-                    widthColumn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            requestLayout();
-                        }
-                    });
-                    widthColumn.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animator) {}
-                        @Override
-                        public void onAnimationEnd(Animator animator) {
-                            column.setVisibleCounts(true);
-                        }
-                        @Override
-                        public void onAnimationCancel(Animator animator) {}
-                        @Override
-                        public void onAnimationRepeat(Animator animator) {}
-                    });
-
-                    AnimatorSet expandSet = new AnimatorSet();
-                    expandSet.playTogether(widthItem, widthColumn);
-
-                    column.expandAnimation.playSequentially(expandSet, anim);
                     column.expandAnimation.start();
 
                     animationQueue.add(column);
@@ -204,41 +143,6 @@ public class ColumnsContainer extends LinearLayout {
             column.setSelected(false);
             column.hideAllCounts();
 
-            final ObjectAnimator widthItem = ObjectAnimator.ofInt(column, "widthItem", 72, 24);
-            widthItem.setDuration(200);
-
-            final ObjectAnimator anim = ObjectAnimator.ofFloat(column.getBackGroundCard(), "alpha", 1f, 0f);
-            anim.setDuration(200);
-
-            ObjectAnimator widthColumn = ObjectAnimator.ofFloat(column.getColumnItem(), "scaleX", 1.0f);
-            widthColumn.setDuration(200);
-
-            anim.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                    column.hideAllCounts();
-                }
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    column.setVisibleBackCard(false);
-                }
-                @Override
-                public void onAnimationCancel(Animator animator) {}
-                @Override
-                public void onAnimationRepeat(Animator animator) {}
-            });
-
-            widthItem.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    requestLayout();;
-                }
-            });
-
-            AnimatorSet collapseSet = new AnimatorSet();
-            collapseSet.playTogether(widthItem, widthColumn);
-
-            column.colapseAnimation.playSequentially(anim, collapseSet);
             if(column.expandAnimation.isRunning()) {
                 column.expandAnimation.addListener(new Animator.AnimatorListener() {
                     @Override
